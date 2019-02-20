@@ -4,4 +4,6 @@
     <string name="button">Anzeigen</string>
     <string name="content_description">Wetter als Bild</string>
     <string name="temp_template">%1d \u2103</string>
+    <string name="kein_Netzwerk">Netzwerk nicht verfügbar</string>
+
 </resources>
