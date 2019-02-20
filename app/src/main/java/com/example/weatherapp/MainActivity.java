@@ -13,6 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -37,7 +41,10 @@ public class MainActivity extends AppCompatActivity {
         button = findViewById(R.id.button);
         button.setOnClickListener((v) -> new Thread(()->{
 
-            final WeatherData weather = WeatherUtils.getWeather(city.getText().toString());
+            final WeatherData weather;
+            try {
+                weather = WeatherUtils.getWeather(city.getText().toString());
+
             final Bitmap bitmapWeather = WeatherUtils.getImage(weather);
             runOnUiThread(()->{
                 imageView.setImageBitmap(bitmapWeather);
@@ -45,6 +52,12 @@ public class MainActivity extends AppCompatActivity {
                 Double tempD = weather.temp -273.15;
                 temp.setText(getString(R.string.temp_template,tempD.intValue()));
             });
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
 
         }).start());
         city.setOnEditorActionListener((textView,i,keyEvent)->{
