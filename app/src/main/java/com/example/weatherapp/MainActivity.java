@@ -45,13 +45,14 @@ public class MainActivity extends AppCompatActivity {
             try {
                 weather = WeatherUtils.getWeather(city.getText().toString());
 
-            final Bitmap bitmapWeather = WeatherUtils.getImage(weather);
-            runOnUiThread(()->{
-                imageView.setImageBitmap(bitmapWeather);
-                beschreibung.setText(weather.description);
-                Double tempD = weather.temp -273.15;
-                temp.setText(getString(R.string.temp_template,tempD.intValue()));
-            });
+                final Bitmap bitmapWeather = WeatherUtils.getImage(weather);
+                runOnUiThread(()->{
+                    imageView.setImageBitmap(bitmapWeather);
+                    beschreibung.setText(weather.getDescription());
+                    Double tempD = weather.getTemp() -273.15;
+                    temp.setText(getString(R.string.temp_template,tempD.intValue()));
+                });
+
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -69,8 +70,10 @@ public class MainActivity extends AppCompatActivity {
     private boolean istNetzwerkVerfuegbar() {
         ConnectivityManager mgr = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // aktuelles Vorgehen
             mgr = getSystemService(ConnectivityManager.class);
         }else {
+            // so wurde es frueher gemacht
             mgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         }
         NetworkInfo info = mgr.getActiveNetworkInfo();

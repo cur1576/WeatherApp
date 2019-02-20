@@ -3,10 +3,10 @@ package com.example.weatherapp;
 import java.io.Serializable;
 
 class WeatherData implements Serializable {
-    public String description;
-    public String name;
-    public String icon;
-    public double temp;
+    private String description;
+    private String name;
+    private String icon;
+    private double temp;
 
     public WeatherData(String description, String name, String icon, double temp) {
         this.description = description;
@@ -15,5 +15,19 @@ class WeatherData implements Serializable {
         this.temp = temp;
     }
 
-    // TODO muss implementiert werden
+    public String getDescription() {
+        return description;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public double getTemp() {
+        return temp;
+    }
 }

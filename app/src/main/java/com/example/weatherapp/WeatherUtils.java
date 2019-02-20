@@ -2,6 +2,7 @@ package com.example.weatherapp;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.JsonReader;
 import android.util.Log;
 import android.widget.Button;
 
@@ -49,13 +50,61 @@ class WeatherUtils {
         return stringBuilder.toString();
     }
 
-
+    /*
+    {
+      "coord": {
+        "lon": 13.39,
+        "lat": 52.52
+      },
+      "weather": [
+        {
+          "id": 801,
+          "main": "Clouds",
+          "description": "Ein paar Wolken",
+          "icon": "02d"
+        }
+      ],
+      "base": "stations",
+      "main": {
+        "temp": 283.15,
+        "pressure": 1021,
+        "humidity": 61,
+        "temp_min": 283.15,
+        "temp_max": 283.15
+      },
+      "visibility": 10000,
+      "wind": {
+        "speed": 4.1,
+        "deg": 270
+      },
+      "clouds": {
+        "all": 20
+      },
+      "dt": 1550674200,
+      "sys": {
+        "type": 1,
+        "id": 1275,
+        "message": 0.0034,
+        "country": "DE",
+        "sunrise": 1550643112,
+        "sunset": 1550680153
+      },
+      "id": 2950159,
+      "name": "Berlin",
+      "cod": 200
+    }
+     */
     public static WeatherData getWeather(String city) throws JSONException,IOException {
         String name = null;
         String description = null;
         String icon = null;
         Double temp = null;
         JSONObject jsonObject = new JSONObject(getFromServer(MessageFormat.format(URL,city,KEY)));
+
+
+        Log.d(TAG, "getWeather: " + jsonObject.toString(2));
+
+
         if(jsonObject.has(NAME)){
             name = jsonObject.getString(NAME);
         }
@@ -82,7 +131,7 @@ class WeatherUtils {
     }
 
     public static Bitmap getImage(WeatherData weather) throws IOException {
-        java.net.URL req = new URL("http://openweathermap.org/img/w/" + weather.icon + ".png");
+        java.net.URL req = new URL("http://openweathermap.org/img/w/" + weather.getIcon() + ".png");
         HttpURLConnection httpURLConnection = (HttpURLConnection)req.openConnection();
         Bitmap bmp = BitmapFactory.decodeStream(httpURLConnection.getInputStream());
         httpURLConnection.disconnect();
